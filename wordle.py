@@ -179,14 +179,25 @@ def get_feedback(secret_word, guessed_word):
     """
     feedback = [None] * NUM_LETTERS
 
+    unguessed_letter_counts = {}
+    for letter in secret_word:
+        if letter in unguessed_letter_counts:
+            unguessed_letter_counts[letter] += 1
+        else:
+            unguessed_letter_counts[letter] = 1
+
     # Modify this! This is just starter code.
     for i in range(NUM_LETTERS):
         if guessed_word[i] == secret_word[i]:
+            unguessed_letter_counts[secret_word[i]] -= 1
             feedback[i] = CORRECT_COLOR
-        elif guessed_word[i] in secret_word:
-            feedback[i] = WRONG_SPOT_COLOR
         else:
             feedback[i] = NOT_IN_WORD_COLOR
+    
+    for i in range(NUM_LETTERS):
+        if guessed_word[i] in secret_word and guessed_word[i] != secret_word[i] and unguessed_letter_counts[secret_word[i]] != 0:
+            unguessed_letter_counts[secret_word[i]] -= 1
+            feedback[i] = WRONG_SPOT_COLOR
 
     # You do not have to change this return statement
     return color_word(feedback, guessed_word)
