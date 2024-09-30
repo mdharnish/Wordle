@@ -135,6 +135,7 @@ def prepare_game():
             secret_word = random.choice(secret_words)
         elif sys.argv[1].isalpha() and sys.argv[1].islower() and len(sys.argv[1]) == 5:
             secret_word = sys.argv[1]
+            valid_words.append(sys.argv[1])
         else:
             raise ValueError(INVALID_INPUT)
     else:
