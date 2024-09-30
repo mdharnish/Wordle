@@ -102,7 +102,6 @@ def color_word(colors, word):
     return "".join(colored_word)
 
 
-# TODO: Modify this function. You may delete this comment when you are done.
 def prepare_game():
     """
     Prepares the game by reading in the valid words and secret words and
@@ -125,7 +124,7 @@ def prepare_game():
         valid_words = [word.rstrip() for word in valid_nonsecret_words.readlines()]
 
     # Open the secret_words.txt file.
-    with open("secret_words.txt", "r") as secret_words_file:
+    with open("secret_words.txt", "r", encoding="ascii") as secret_words_file:
         secret_words = [word.rstrip() for word in secret_words_file.readlines()]
 
     # Modify this if statement! This is just starter code.
@@ -145,7 +144,6 @@ def prepare_game():
     return secret_word, valid_words
 
 
-# TODO: Modify this function. You may delete this comment when you are done.
 def is_valid_guess(guess, valid_guesses):
     """
     Checks if a given guess is valid.
@@ -160,7 +158,6 @@ def is_valid_guess(guess, valid_guesses):
     return guess in valid_guesses
 
 
-# TODO: Modify this function. You may delete this comment when you are done.
 def get_feedback(secret_word, guessed_word):
     """
     Processes the guess and generates the colored feedback based on the secret
@@ -194,11 +191,11 @@ def get_feedback(secret_word, guessed_word):
             feedback[i] = CORRECT_COLOR
         else:
             feedback[i] = NOT_IN_WORD_COLOR
-    
     for i in range(NUM_LETTERS):
-        if guessed_word[i] in secret_word and guessed_word[i] != secret_word[i] and unguessed_letter_counts[guessed_word[i]] != 0:
-            unguessed_letter_counts[guessed_word[i]] -= 1
-            feedback[i] = WRONG_SPOT_COLOR
+        if guessed_word[i] in secret_word and guessed_word[i] != secret_word[i]:
+            if unguessed_letter_counts[guessed_word[i]] != 0:
+                unguessed_letter_counts[guessed_word[i]] -= 1
+                feedback[i] = WRONG_SPOT_COLOR
 
     # You do not have to change this return statement
     return color_word(feedback, guessed_word)
